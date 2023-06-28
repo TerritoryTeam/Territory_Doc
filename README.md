@@ -11,7 +11,7 @@
 
 GitPage version is coming soon.
 
-### Contribute to MDN Web Docs
+### Contribute
 You can contribute to Territory Docs and be a part of our community through content contributions, engineering, or translation work. The Territory Docs project welcomes contributions from everyone who shares our goals and wants to contribute constructively and respectfully within our community.
 
 To find out how to get started, see the CONTRIBUTING.md document in this repository. By participating in and contributing to our projects and discussions, you acknowledge that you have read and agree to our Code of Conduct.
