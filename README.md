@@ -20,5 +20,5 @@ To find out how to get started, see the CONTRIBUTING.md document in this reposit
 
 This Document Project is licensed under the [Apache-2 License](https://github.com/TerritoryOrg/Territory_Doc/blob/release/LICENSE).
 
-### Thanks 💜
-Thanks for all your contributions and efforts towards improving the GitHub documentation. We thank you for being part of our ✨ community ✨!
+### Thanks
+Thanks for all your contributions and efforts towards improving the Territory documentation. We thank you for being part of our ✨ community ✨!
