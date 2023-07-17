@@ -27,13 +27,23 @@ jobs:
       - uses: actions/checkout@v3
       - name: 安装hexo
         run: npm install
-      - name: 打印地址
-        run: where hexo
+        
+      - name: Cache Modules # 缓存 Node 插件
+        id: cache-modules
+        with:
+          path: node_modules
+          key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
+          
+      - name: Install Dependencies # 如果没有缓存或 插件有更新，则安装插件
+        if: steps.cache-modules.outputs.cache-hit != 'true'
+        run: | # 如果仓库里没有 package-lock.json，上传一下，npm ci 必须要有 package-lock.json
+          npm ci
+          
       # Runs a single command using the runners shell
       - name: 清理hexo
         run: hexo clean 
       - name: 构建hexo静态文件
-        run: hexo g
+        run: hexo generate
   
       # Runs a set of commands using the runners shell
       - name: 提交到gitpage
