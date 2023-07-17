@@ -1,0 +1,57 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Merge and Deploy Hexo to Gitpage
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "release" branch
+  push:
+    branches: [ "release" ]
+  pull_request:
+    branches: [ "release" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  hexo-deploy:
+    permissions: write-all
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node # 安装 Node.js
+        uses: actions/checkout@v3
+        with:
+          node-version: "18.6.0"
+        
+      - name: 安装hexo
+        run: npm install hexo-cli -g
+        
+      - name: Cache Modules # 缓存 Node 插件
+        uses: actions/checkout@v3
+        id: cache-modules
+        with:
+          path: node_modules
+          key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
+          
+      - name: Install Dependencies # 如果没有缓存或 插件有更新，则安装插件
+        if: steps.cache-modules.outputs.cache-hit != 'true'
+        run: | # 如果仓库里没有 package-lock.json，上传一下，npm ci 必须要有 package-lock.json
+          npm ci
+          
+      # Runs a single command using the runners shell
+      - name: 清理hexo
+        run: hexo clean 
+      - name: 构建hexo静态文件
+        run: hexo generate
+  
+      # Runs a set of commands using the runners shell
+      - name: 提交到gitpage
+        run: hexo d
